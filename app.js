@@ -10,8 +10,8 @@ app.get('/getTimeStories', (req, res) => {
     https.get(url, (response) => {
         let html = '';
 
-        response.on('data', (chunk) => {
-            html += chunk;
+        response.on('data', (htmlSlice) => {
+            html += htmlSlice;
             
         });
 
@@ -39,11 +39,9 @@ function extractStories(html) {
         return stories;
     }
 
-    // Capture a reasonable portion of HTML where stories are located
     const endSection = html.substring(start, start + 5000);
 
-    
-    // Regular expression to match each story item
+    // Regular expression 
     const storyRegex = /<li class="latest-stories__item">\s*<a href="(\/\d+\/[^"]+)">\s*<h3 class="latest-stories__item-headline">([^<]+)<\/h3>/g;
     let match;
 
@@ -60,5 +58,5 @@ function extractStories(html) {
 }
 
 app.listen(PORT, () => {
-    console.log(`Server is running on${PORT}`);
+    console.log(`Server is running on ${PORT}`);
 });
